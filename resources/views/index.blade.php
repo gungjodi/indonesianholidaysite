@@ -54,6 +54,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js" integrity="sha256-7Ls/OujunW6k7kudzvNDAt82EKc/TPTfyKxIE5YkBzg=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
+            //initiate datepicker
             $('.input-group.date').datepicker({
                 format: "yyyy-mm-dd",
                 todayHighlight: true,
@@ -62,6 +63,7 @@
                 endDate:"2018-12-31"
             });
 
+            //trigerring API on datepicker changed
             $('.input-group.date').datepicker().on('changeDate',function(){
                 var datelist = $('.input-group.date').datepicker('getFormattedDate');
                 $("#result").html("Fetching Data . . .");
