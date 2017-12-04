@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,4 +12,4 @@ use Illuminate\Http\Request;
 */
 
 
-Route::get('getEvent/{dateIn}', 'GoogleIndonesianHoliday@getEvent');
+Route::get('getEvent/{dateIn}', 'HolidayController@getEvent');

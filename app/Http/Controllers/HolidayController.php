@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-class GoogleIndonesianHoliday extends Controller
+class HolidayController extends Controller
 {
     public function getEvent($date)
     {

@@ -79,7 +79,6 @@
                     alert( "Unknown error occured" );
                 });
             });
-
         });
     </script>
 </html>

@@ -11,4 +11,4 @@
 |
 */
 
-Route::get('/', "GoogleIndonesianHoliday@index");
+Route::get('/', "HolidayController@index");
