@@ -21,17 +21,6 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
-
             <div class="content">
                 <div class="title m-b-md">
                     Is this holiday?
@@ -70,14 +59,21 @@
                 todayHighlight: true,
                 autoclose: true,
                 startDate:"2018-01-01",
-                endDate:"2018-31-31"
+                endDate:"2018-12-31"
             });
 
-            $('.input-group.date').datepicker().on('changeDate',function(e){
+            $('.input-group.date').datepicker().on('changeDate',function(){
                 var datelist = $('.input-group.date').datepicker('getFormattedDate');
                 $("#result").html("Fetching Data . . .");
                 $.get( "api/getEvent/"+datelist, function(data) {
-                   $("#result").html(data.holidayName);
+                    if(data.isHoliday)
+                    {
+                        $("#result").html("IS A HOLIDAY ! <br>"+"It's "+data.message);
+                    }
+                    else
+                    {
+                        $("#result").html(data.message);
+                    }
                 })
                 .fail(function() {
                     alert( "Unknown error occured" );

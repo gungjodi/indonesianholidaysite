@@ -2,41 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use League\Flysystem\Config;
-use Carbon\Carbon;
-
 class GoogleIndonesianHoliday extends Controller
 {
     public function getEvent($date)
     {
-        $collection = json_decode(file_get_contents(config('constants.HOLIDAY_URL')),false);
-        $itemsCollection = $collection->items;
+        $holidayModel = new \App\Holiday();
+        $holidaysCollection = $holidayModel->getHoliday();
 
-        foreach ($itemsCollection as $item)
+        if(!$holidayModel->validateDate($date))
         {
-            $holidaysCollection[]=(object) array(
-                "holidayName"=>$item->summary,
-                "holidayDate"=>$item->start->date,
-            );
+            $holiday['status']='OUT_OF_RANGE';
+            $holiday['message']='ERROR | DATE OF OUT RANGE';
+            return $holiday;
         }
-        $formattedDate =  Carbon::createFromFormat('Y-m-d', $date)->format('d F Y');
 
-        foreach ($holidaysCollection as $holiday)
+        $holiday = $holidaysCollection->where('holidayDateTime','=',strtotime($date))->first();
+
+        if(!empty($holiday))
         {
-            if(strtotime($date)==strtotime($holiday->holidayDate))
-            {
-                return array(
-                    "formattedDate"=>$formattedDate,
-                    "holidayName"=>$holiday->holidayName
-                );
-                break;
-            }
+            $holiday['isHoliday']=1;
         }
-        return array(
-            "formattedDate"=>$formattedDate,
-            "holidayName"=>"NOT FOUND"
-        );
+        else
+        {
+            $holiday['isHoliday']=0;
+            $holiday['message']="NOT A HOLIDAY :(";
+        }
+        $holiday['status']='OK';
+
+
+
+        return $holiday;
     }
 
     public function index()
